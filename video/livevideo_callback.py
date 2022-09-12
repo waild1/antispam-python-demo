@@ -94,19 +94,20 @@ if __name__ == "__main__":
             antispam: dict = result["antispam"]
             taskId: str = antispam["taskId"]
             dataId: str = antispam["dataId"]
-            censorSource: int = antispam["censorSource"]
-            status: int = antispam["status"]
-            if status == 2:
-                evidence: dict = antispam["evidence"]
-                labelArray: list = antispam["labels"]
-                if len(labelArray) > 0:  # 检测异常
-                    for labelItem in labelArray:
-                        label: int = labelItem["label"]
-                        level: int = labelItem["level"]
-                        rate: float = labelItem["rate"]
-                        subLabelArray: list = labelItem["subLabels"]
-                        print("异常, taskId: %s, 分类: %s, 证据信息: %s" % (taskId, labelItem, evidence))
-            else:
-                print("未检测成功, status: %s" % status)
+            if 'censorSource' in antispam:
+                censorSource: int = antispam["censorSource"]
+                status: int = antispam["status"]
+                if status == 2:
+                    evidence: dict = antispam["evidence"]
+                    labelArray: list = antispam["labels"]
+                    if len(labelArray) > 0:  # 检测异常
+                        for labelItem in labelArray:
+                            label: int = labelItem["label"]
+                            level: int = labelItem["level"]
+                            rate: float = labelItem["rate"]
+                            subLabelArray: list = labelItem["subLabels"]
+                            print("异常, taskId: %s, 分类: %s, 证据信息: %s" % (taskId, labelItem, evidence))
+                else:
+                    print("未检测成功, status: %s" % status)
     else:
         print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))

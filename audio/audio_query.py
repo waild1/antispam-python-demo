@@ -96,7 +96,7 @@ if __name__ == "__main__":
     code: int = ret["code"]
     msg: str = ret["msg"]
     if code == 200:
-        antispamArray: list = ret["antispam"]
+        antispamArray: list = ret["result"]
         if antispamArray is None or len(antispamArray) == 0:
             print("暂无审核回调数据")
         else:
@@ -118,10 +118,8 @@ if __name__ == "__main__":
                             hintArray: list = details["hint"]
                             subLabels: list = labelInfo["subLabels"]
                         print("callback=%s，结果：不通过，分类信息如下：%s" % (taskId, labelArray))
-        languageArray: list = ret["language"]
-        if languageArray is None or len(languageArray) == 0:
-            print("暂无语种检测数据")
-        else:
+        if 'language' in ret:
+            languageArray: list = ret["language"]
             for result in languageArray:
                 status: int = result["status"]
                 taskId: str = result["taskId"]
@@ -136,10 +134,10 @@ if __name__ == "__main__":
                             if segmentsArray is not None and len(segmentsArray) > 0:
                                 for segment in segmentsArray:
                                     print("taskId=%s，语种类型=%s，开始时间=%s秒，结束时间=%s秒" % (taskId, typeLan, segment["startTime"], segment["endTime"]))
-        asrArray: list = ret["asr"]
-        if asrArray is None or len(asrArray) == 0:
-            print("暂无语音翻译数据")
         else:
+            print("暂无语种检测数据")
+        if 'asr' in ret:
+            asrArray: list = ret["asr"]
             for result in asrArray:
                 status: int = result["status"]
                 taskId: str = result["taskId"]
@@ -153,5 +151,7 @@ if __name__ == "__main__":
                             endTime: int = asr["endTime"]
                             content: str = asr["content"]
                             print("taskId=%s，文字翻译结果=%s，开始时间=%s秒，结束时间=%s秒" % (taskId, content, startTime, endTime))
+        else:
+            print("暂无语音翻译数据")
     else:
         print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))

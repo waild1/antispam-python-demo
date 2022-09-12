@@ -88,27 +88,30 @@ if __name__ == "__main__":
         "endTime": "1578327000000"
     }
     ret = api.check(params)
-
-    code: int = ret["code"]
-    msg: str = ret["msg"]
-    if code == 200:
-        resultArray: list = ret["result"]
-        if len(resultArray) == 0:
-            print("没有结果")
+    if ret is not None:
+        code: int = ret["code"]
+        msg: str = ret["msg"]
+        if code == 200:
+            resultArray: list = ret["result"]
+            if len(resultArray) == 0:
+                print("没有结果")
+            else:
+                for result in resultArray:
+                    taskId: str = result["taskId"]
+                    action: int = result["action"]
+                    if 'startTime' in result:
+                        startTime: int = result["startTime"]
+                    if 'endTime' in result:
+                        endTime: int = result["endTime"]
+                    if 'segments' in result:
+                        segment_array: list = result["segments"]
+                    if action == 0:
+                        print("taskId=%s，结果：通过，时间区间【%s-%s】，证据信息如下：%s" % (taskId, startTime, endTime, segment_array))
+                    elif action == 1 or action == 2:
+                        for segment_item in segment_array:
+                            label: int = segment_item["label"]
+                            level: int = segment_item["level"]
+                        print("taskId=%s，结果：%s，时间区间【%s-%s】，证据信息如下：%s" % (taskId, "不确定" if action == 1 else "不通过",
+                                                                         startTime, endTime, segment_array))
         else:
-            for result in resultArray:
-                taskId: str = result["taskId"]
-                action: int = result["action"]
-                startTime: int = result["startTime"]
-                endTime: int = result["endTime"]
-                segment_array: list = result["segments"]
-                if action == 0:
-                    print("taskId=%s，结果：通过，时间区间【%s-%s】，证据信息如下：%s" % (taskId, startTime, endTime, segment_array))
-                elif action == 1 or action == 2:
-                    for segment_item in segment_array:
-                        label: int = segment_item["label"]
-                        level: int = segment_item["level"]
-                    print("taskId=%s，结果：%s，时间区间【%s-%s】，证据信息如下：%s" % (taskId, "不确定" if action == 1 else "不通过",
-                                                                     startTime, endTime, segment_array))
-    else:
-        print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))
+            print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))

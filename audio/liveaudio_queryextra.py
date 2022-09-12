@@ -25,7 +25,7 @@ class LiveAudioCallbackAPIDemo(object):
     """直播音频增值检测结果获取接口示例代码"""
 
     API_URL = "http://as.dun.163.com/v1/liveaudio/query/extra"
-    VERSION = "v1"
+    VERSION = "v1.0"
 
     def __init__(self, secret_id, secret_key, business_id):
         """

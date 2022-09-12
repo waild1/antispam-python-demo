@@ -117,8 +117,9 @@ if __name__ == "__main__":
                             label: int = labelInfo["label"]
                             level: int = labelInfo["level"]
                             subLabels: list = labelInfo["subLabels"]
-        language: dict = res["language"]
-        if language is not None:
+
+        if 'language' in res:
+            language: dict = res["language"]
             taskId: str = language["taskId"]
             dataId: str = language["dataId"]
             callback: str = language["callback"]
@@ -142,8 +143,11 @@ if __name__ == "__main__":
                     endTime: int = detail["endTime"]
                     content: str = detail["content"]
                     print("taskId=%s，文字翻译结果=%s，开始时间=%s秒，结束时间=%s秒" % (taskId, content, startTime, endTime))
-        voice: dict = res["voice"]
-        if voice is not None:
+            else:
+                print("taskId=%s，dataId=%s，反馈=%s" % (taskId, dataId, callback))
+
+        if 'voice' in res:
+            voice: dict = res["voice"]
             taskId: str = voice["taskId"]
             dataId: str = voice["dataId"]
             callback: str = voice["callback"]

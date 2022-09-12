@@ -132,18 +132,22 @@ if __name__ == "__main__":
         else:
             for result in resultArray:
                 taskId: str = result["taskId"]
-                dataId: str = result["dataId"]
-                callback: str = result["callback"]
-                status: int = result["status"]
-                print("taskId:%s, dataId:%s, callback:%s, status:%s" % (taskId, dataId, callback, status))
+                if 'dataId' in result:
+                    dataId: str = result["dataId"]
+                    callback: str = result["callback"]
+                    status: int = result["status"]
+                    action: int = result["action"]
+                    actionTime: int = result["actionTime"]
+                    detail: int = result["detail"]
+                    print("taskId:%s, action:%s, actionTime:%s, detail:%s" % (taskId, action, actionTime, detail))
 
-                evidences: dict = result["evidences"]
-                reviewEvidences: dict = result["reviewEvidences"]
-                if evidences is not None:
-                    api.parse_machine(evidences, taskId)
-                elif reviewEvidences is not None:
-                    api.parse_human(reviewEvidences, taskId)
-                else:
-                    print("Invalid Result: %s" % result)
+                    evidences: dict = result["evidences"]
+                    reviewEvidences: dict = result["reviewEvidences"]
+                    if evidences is not None:
+                        api.parse_machine(evidences, taskId)
+                    elif reviewEvidences is not None:
+                        api.parse_human(reviewEvidences, taskId)
+                    else:
+                        print("Invalid Result: %s" % result)
     else:
         print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))

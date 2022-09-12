@@ -131,7 +131,8 @@ if __name__ == "__main__":
                     label: int = labelItem["label"]
                     level: int = labelItem["level"]
                     rate: float = labelItem["rate"]
-                    subLabels: list = labelItem["subLabels"]
+                    if 'subLabels' in labelItem:
+                        subLabels: list = labelItem["subLabels"]
                     print("label: %s, level: %s, rate: %s, subLabels: %s" % (label, level, rate, subLabels))
                 if suggestion == 0:
                     print("#图片机器检测结果: 最高等级为\"正常\"\n")
@@ -144,39 +145,42 @@ if __name__ == "__main__":
                 # 检测失败原因，当status为3（检测失败）时返回：610 图片下载失败、620 图片格式错误、630 其他
                 print("图片检测失败, taskId: %s, failureReason: %s, name: %s" % (taskId, failureReason, name))
             # 图片OCR结果
-            ocrResult: dict = resultItem["ocr"]
-            name: str = ocrResult["name"]
-            taskId: str = ocrResult["taskId"]
-            details: list = ocrResult["details"]
-            print("taskId: %s, name: %s" % (taskId, name))
-            # 产品需根据自身需求，自行解析处理，本示例只是简单输出ocr结果信息
-            for detail in details:
-                content: str = detail["content"]
-                lineContents: list = detail["lineContents"]
-                print("识别ocr文本内容: %s, ocr片段及坐标信息: %s" % (content, lineContents))
-            # 图片人脸检测结果
-            faceResult: dict = resultItem["face"]
-            name: str = faceResult["name"]
-            taskId: str = faceResult["taskId"]
-            details: list = faceResult["details"]
-            print("taskId: %s, name: %s" % (taskId, name))
-            # 产品需根据自身需求，自行解析处理，本示例只是简单输出人脸结果信息
-            for detail in details:
-                faceNumber: int = detail["faceNumber"]
-                faceContents: list = detail["faceContents"]
-                print("识别人脸数量: %s, 人物信息及坐标信息: %s" % (faceNumber, faceContents))
-            # 图片质量检测结果
-            qualityResult: dict = resultItem["quality"]
-            name: str = qualityResult["name"]
-            taskId: str = qualityResult["taskId"]
-            details: list = qualityResult["details"]
-            print("taskId: %s, name: %s" % (taskId, name))
-            # 产品需根据自身需求，自行解析处理，本示例只是简单输出质量结果信息
-            for detail in details:
-                aestheticsRate: float = detail["aestheticsRate"]
-                metaInfo: dict = detail["metaInfo"]
-                boarderInfo: dict = detail["boarderInfo"]
-                print("图片美观度分数:%s, 图片基本信息:%s, 图片边框信息:%s" % (aestheticsRate, metaInfo, boarderInfo))
+            if 'subLabels' in labelItem:
+                subLabels: list = labelItem["subLabels"]
+            if 'ocr' in resultItem:
+                ocrResult: dict = resultItem["ocr"]
+                name: str = ocrResult["name"]
+                taskId: str = ocrResult["taskId"]
+                details: list = ocrResult["details"]
+                print("taskId: %s, name: %s" % (taskId, name))
+                # 产品需根据自身需求，自行解析处理，本示例只是简单输出ocr结果信息
+                for detail in details:
+                    content: str = detail["content"]
+                    lineContents: list = detail["lineContents"]
+                    print("识别ocr文本内容: %s, ocr片段及坐标信息: %s" % (content, lineContents))
+                # 图片人脸检测结果
+                faceResult: dict = resultItem["face"]
+                name: str = faceResult["name"]
+                taskId: str = faceResult["taskId"]
+                details: list = faceResult["details"]
+                print("taskId: %s, name: %s" % (taskId, name))
+                # 产品需根据自身需求，自行解析处理，本示例只是简单输出人脸结果信息
+                for detail in details:
+                    faceNumber: int = detail["faceNumber"]
+                    faceContents: list = detail["faceContents"]
+                    print("识别人脸数量: %s, 人物信息及坐标信息: %s" % (faceNumber, faceContents))
+                # 图片质量检测结果
+                qualityResult: dict = resultItem["quality"]
+                name: str = qualityResult["name"]
+                taskId: str = qualityResult["taskId"]
+                details: list = qualityResult["details"]
+                print("taskId: %s, name: %s" % (taskId, name))
+                # 产品需根据自身需求，自行解析处理，本示例只是简单输出质量结果信息
+                for detail in details:
+                    aestheticsRate: float = detail["aestheticsRate"]
+                    metaInfo: dict = detail["metaInfo"]
+                    boarderInfo: dict = detail["boarderInfo"]
+                    print("图片美观度分数:%s, 图片基本信息:%s, 图片边框信息:%s" % (aestheticsRate, metaInfo, boarderInfo))
 
     else:
         print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))

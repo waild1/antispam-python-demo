@@ -100,8 +100,10 @@ if __name__ == "__main__":
             action: int = result["action"]
             taskId: str = result["taskId"]
             status: int = result["status"]
-            callback: str = result.get("callback", "")
-            labelArray: list = result["labels"]
+            if 'callback' in result:
+                callback: str = result.get("callback", "")
+            if 'labels' in result:
+                labelArray: list = result["labels"]
             # for labelItem in labelArray:
             #     label: int = labelItem["label"]
             #     level: int = labelItem["level"]

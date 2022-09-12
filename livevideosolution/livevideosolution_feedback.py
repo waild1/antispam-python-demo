@@ -92,20 +92,21 @@ if __name__ == "__main__":
         "realTimeInfoList": json.dumps(realTimeInfos)
     }
     ret = api.check(params)
+    if ret is not None:
+        code: int = ret["code"]
+        # msg: str = ret["msg"]
+        if 'result' in ret:
+            resultArray: list = ret["result"]
+        if code == 200:
+            for result in resultArray:
+                taskId: str = result["taskId"]
+                r: int = result["result"]
+                if r == 0:
+                    print("SUCCESS, taskId=%s" % taskId)
+                elif r == 2:
+                    print("NOT EXISTS, taskId=%s" % taskId)
+                elif r == 1:
+                    print("SERVER ERROR, taskId=%s" % taskId)
 
-    code: int = ret["code"]
-    msg: str = ret["msg"]
-    resultArray: list = ret["result"]
-    if code == 200:
-        for result in resultArray:
-            taskId: str = result["taskId"]
-            r: int = result["result"]
-            if r == 0:
-                print("SUCCESS, taskId=%s" % taskId)
-            elif r == 2:
-                print("NOT EXISTS, taskId=%s" % taskId)
-            elif r == 1:
-                print("SERVER ERROR, taskId=%s" % taskId)
-
-    else:
-        print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))
+        else:
+            print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))

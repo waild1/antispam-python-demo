@@ -94,9 +94,9 @@ if __name__ == "__main__":
                 taskId: str = resultItem["taskId"]
                 result: int = resultItem["result"]
                 print("taskId: %s, result: %s" % (taskId, result))
-                if resultItem["evidences"] is not None:
+                if 'evidences' in resultItem:
                     evidences: dict = resultItem["evidences"]
-                    if evidences["audio"] is not None:
+                    if 'audio' in evidences:
                         audio: dict = evidences["audio"]
                         asrStatus: int = audio["asrStatus"]
                         if asrStatus == 4:

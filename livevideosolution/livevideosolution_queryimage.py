@@ -90,26 +90,30 @@ if __name__ == "__main__":
         "pageSize": "10",
     }
     ret = api.check(params)
-
-    code: int = ret["code"]
-    msg: str = ret["msg"]
-    if code == 200:
-        result: dict = ret["result"]
-        status: int = result["status"]
-        images: dict = result["images"]
-        count: int = images["count"]
-        rows: list = images["rows"]
-        if status == 0:
-            for row in rows:
-                url: str = row["url"]
-                label: int = row["label"]
-                labelLevel: int = row["labelLevel"]
-                beginTime: int = row["beginTime"]
-                endTime: int = row["endTime"]
-            print("live data query success, images: %s" % rows)
-        elif status == 20:
-            print("taskId is expired")
-        elif status == 30:
-            print("taskId is not exist")
-    else:
-        print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))
+    if ret is not None:
+        code: int = ret["code"]
+        msg: str = ret["msg"]
+        if code == 200:
+            result: dict = ret["result"]
+            status: int = result["status"]
+            images: dict = result["images"]
+            count: int = images["count"]
+            rows: list = images["rows"]
+            if status == 0:
+                for row in rows:
+                    if 'url' in row:
+                        url: str = row["url"]
+                    if 'label' in row:
+                        label: int = row["label"]
+                    labelLevel: int = row["labelLevel"]
+                    if 'beginTime' in row:
+                        beginTime: int = row["beginTime"]
+                    if 'endTime' in row:
+                        endTime: int = row["endTime"]
+                print("live data query success, images: %s" % rows)
+            elif status == 20:
+                print("taskId is expired")
+            elif status == 30:
+                print("taskId is not exist")
+        else:
+            print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))

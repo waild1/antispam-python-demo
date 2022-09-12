@@ -80,9 +80,9 @@ class ListDeleteDemo(object):
 
 if __name__ == "__main__":
     """示例代码入口"""
-    SECRET_ID = "your_secret_id"  # 产品密钥ID，产品标识
-    SECRET_KEY = "your_secret_key"  # 产品私有密钥，服务端生成签名信息使用，请严格保管，避免泄露
-    BUSINESS_ID = "your_business_id"  # 业务ID，易盾根据产品业务特点分配
+    SECRET_ID = "651965a3717afecb22ef9e7567cb89fd"  # 产品密钥ID，产品标识
+    SECRET_KEY = "862bd1844a424e83ffc7f702d2789f1e"  # 产品私有密钥，服务端生成签名信息使用，请严格保管，避免泄露
+    BUSINESS_ID = "d23a49feae29fda87259975407a9feb1"  # 业务ID，易盾根据产品业务特点分配
     api = ListDeleteDemo(SECRET_ID, SECRET_KEY, BUSINESS_ID)
 
     # 私有请求参数
@@ -91,18 +91,18 @@ if __name__ == "__main__":
     entities: list = ["名单1", "名单2"]
 
     params = {
-        "entityType": 1,
-        "listType": 1,
-        "uuids": json.dumps(uuids),
-        "entities": json.dumps(entities)
+        # "entityType": 1,
+        # "listType": 1,
+        # "uuids": json.dumps(uuids),
+        # "entities": json.dumps(entities)
     }
 
     ret = api.query(params)
-
-    code: int = ret["code"]
-    msg: str = ret["msg"]
-    if code == 200:
-        result: bool = ret["result"]
-        print("Delete success: %s" % result)
-    else:
-        print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))
+    if ret is not None:
+        code: int = ret["code"]
+        msg: str = ret["msg"]
+        if code == 200:
+            result: bool = ret["result"]
+            print("Delete success: %s" % result)
+        else:
+            print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))

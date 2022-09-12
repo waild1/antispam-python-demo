@@ -81,7 +81,7 @@ if __name__ == "__main__":
     api = DigitalCallbackAPIDemo(SECRET_ID, SECRET_KEY)
     
     ret = api.check()
-
+    print(ret)
     code: int = ret["code"]
     msg: str = ret["msg"]
     if code == 200:
@@ -92,35 +92,40 @@ if __name__ == "__main__":
             for resultItem in resultArray:
                 if resultItem["antispam"] is not None:
                     antispam: dict = resultItem["antispam"]
-                    dataId: str = antispam["dataId"]
                     taskId: str = antispam["taskId"]
-                    callback: str = antispam["callback"]
+                    # callback: str = antispam["callback"]
                     suggestion: int = antispam["suggestion"]
                     resultType: int = antispam["resultType"]
-                    checkStatus: int = antispam["checkStatus"]
+                    # checkStatus: int = antispam["checkStatus"]
                     if antispam["evidences"] is not None:
                         evidences: dict = antispam["evidences"]
-                        if evidences["texts"] is not None:
+
+                        if 'texts' in evidences:
                             texts: list = evidences["texts"]
                             for text in texts:
+                                dataId: str = text["dataId"]
                                 print("文本信息, dataId:%s, 建议动作:%s", text["dataId"], text["suggestion"])
                         elif evidences["images"] is not None:
                             images: list = evidences["images"]
                             for image in images:
+                                dataId: str = image["dataId"]
                                 print("图片信息, dataId:%s, 检测状态:%s, 建议动作:%s", image["dataId"], image["status"],
                                   image["suggestion"])
                         elif evidences["audios"] is not None:
                             audios: list = evidences["audios"]
                             for audio in audios:
+                                dataId: str = audio["dataId"]
                                 print("语音信息, dataId:%s, 检测状态:%s, 建议结果:%s", audio["dataId"], audio["status"],
                                   audio["suggestion"])
                         elif evidences["audiovideos"] is not None:
                             audiovideos: list = evidences["audiovideos"]
                             for audiovideo in audiovideos:
+                                dataId: str = audio["dataId"]
                                 print("音视频信息, dataId:%s, 建议结果:%s", audiovideo["dataId"], audiovideo["suggestion"])
                         elif evidences["files"] is not None:
                             files: list = evidences["files"]
                             for file in files:
+                                dataId: str = file["dataId"]
                                 print("文档信息, dataId:%s, 建议动作:%s", file["dataId"], file["suggestion"])
     else:
         print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))

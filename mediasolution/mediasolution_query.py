@@ -100,8 +100,8 @@ if __name__ == "__main__":
             print("Can't find Callback Data")
         else:
             for result in resultArray:
-                antispam: dict = result["antispam"]
-                if antispam is None:
+                if 'antispam' in result:
+                    antispam: dict = result["antispam"]
                     print("Can't find antispam Data")
                 else:
                     checkStatus: int = antispam["checkStatus"]

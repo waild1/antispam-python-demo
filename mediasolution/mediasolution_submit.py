@@ -24,8 +24,17 @@ from gmssl import sm3, func
 class MediaSolutionSubmitAPIDemo(object):
     """融媒体解决方案检测提交接口示例代码"""
 
-    API_URL = "http://as.dun.163.com/v2/mediasolution/submit"
-    VERSION = "v2.0"
+    API_URL = "http://as.dun.163.com/v1/mediasolution/submit"
+    VERSION = "v1.1"
+
+    def __init__(self, secret_id, secret_key):
+        """
+        Args:
+            secret_id (str) 产品密钥ID，产品标识
+            secret_key (str) 产品私有密钥，服务端生成签名信息使用
+        """
+        self.secret_id = secret_id
+        self.secret_key = secret_key
 
     def __init__(self, secret_id, secret_key):
         """
@@ -89,23 +98,23 @@ if __name__ == "__main__":
     }
     image = {
         "type": "image",
-        "data": "http://xxx"
+        "data": "http://xxx.jpg"
     }
     audio = {
         "type": "audio",
-        "data": "http://xxx"
+        "data": "http://xxx.mp3"
     }
     video = {
         "type": "video",
-        "data": "http://xxx"
+        "data": "http://xxx.mp4"
     }
     audiovideo = {
         "type": "audiovideo",
-        "data": "http://xxx"
+        "data": "http://xxx.mp4"
     }
     file = {
         "type": "file",
-        "data": "http://xxx"
+        "data": "http://xxx.txt"
     }
 
     arr.append(text)
@@ -117,7 +126,9 @@ if __name__ == "__main__":
 
     params = {
         "title": "融媒体解决方案的标题",
-        "content": json.dumps(arr)
+        "dataId": "1346",
+        "callback": "i am callback",
+        "content": json.dumps(arr, ensure_ascii=False)
     }
 
     ret = api.check(params)
@@ -127,9 +138,12 @@ if __name__ == "__main__":
     msg: str = ret["msg"]
     if code == 200:
         result: dict = ret["result"]
-        antispam: dict = result["antispam"]
-        taskId: str = antispam["taskId"]
-        dataId: str = antispam["dataId"]
+        if 'antispam' in result:
+            antispam: dict = result["antispam"]
+        if 'taskId' in antispam:
+            taskId: str = antispam["taskId"]
+        if 'dataId' in antispam:
+            dataId: str = antispam["dataId"]
         print("SUBMIT SUCCESS: taskId=%s, dataId=%s" % (taskId, dataId))
     else:
         print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))

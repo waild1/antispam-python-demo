@@ -94,9 +94,13 @@ if __name__ == "__main__":
             if antispam is not None:
                 dataId: str = antispam["dataId"]
                 taskId: str = antispam["taskId"]
-                resultType: int = antispam["resultType"]
+                if 'resultType' in antispam:
+                    resultType: int = antispam["resultType"]
                 suggestion: int = antispam["suggestion"]
-                evidences: dict = antispam["evidences"]
-                print("SUCCESS: dataId=%s, taskId=%s, evidences=%s" % (dataId, taskId, evidences))
+                if 'evidences' in antispam:
+                    evidences: dict = antispam["evidences"]
+                    print("SUCCESS: dataId=%s, taskId=%s, evidences=%s" % (dataId, taskId, evidences))
+                else:
+                    print("SUCCESS: dataId=%s, taskId=%s" % (dataId, taskId))
     else:
         print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))

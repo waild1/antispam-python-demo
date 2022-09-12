@@ -108,10 +108,12 @@ if __name__ == "__main__":
         taskId: str = antispam["taskId"]
         dataId: str = antispam["dataId"]
         suggestion: int = antispam["suggestion"]
-        suggestionLevel: int = antispam["suggestionLevel"]
+        if 'suggestionLevel' in antispam:
+            suggestionLevel: int = antispam["suggestionLevel"]
         resultType: int = antispam["resultType"]
         censorType: int = antispam["censorType"]
-        strategyVersions: list = antispam["strategyVersions"]
+        if 'strategyVersions' in antispam:
+            strategyVersions: list = antispam["strategyVersions"]
         # for strategyVersion in strategyVersions:
         #    label: int = strategyVersion["label"]
         #    version: str = strategyVersion["version"]

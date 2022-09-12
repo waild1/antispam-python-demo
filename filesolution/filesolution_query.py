@@ -90,7 +90,8 @@ if __name__ == "__main__":
     code: int = ret["code"]
     msg: str = ret["msg"]
     if code == 200:
-        resultArray: list = ret["result"]
+        if 'result' in ret:
+            resultArray: list = ret["result"]
         if resultArray is None:
             print("Can't find Callback Data")
             exit()
@@ -98,9 +99,11 @@ if __name__ == "__main__":
             dataId: str = resultItem["dataId"]
             taskId: str = resultItem["taskId"]
             result: int = resultItem["result"]
-            callback: str = resultItem.get("callback", "")
-            evidences: dict = resultItem["evidences"]
-            print("SUCCESS: dataId=%s, taskId=%s, result=%s, callback=%s, evidences=%s" %
-                  (dataId, taskId, result, callback, evidences))
+            # callback: str = resultItem.get("callback", "")
+            if 'evidences' in resultItem:
+                evidences: dict = resultItem["evidences"]
+                print("SUCCESS: dataId=%s, taskId=%s, result=%s, evidences=%s" %(dataId, taskId, result, evidences))
+            else:
+                print("SUCCESS: dataId=%s, taskId=%s, result=%s" % (dataId, taskId, result))
     else:
         print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))

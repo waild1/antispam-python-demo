@@ -103,8 +103,15 @@ if __name__ == "__main__":
             # 直播状态, 101: 直播中，102：直播结束
             status: int = result["status"]
             # 回调标识
-            callback: str = result["callback"]
-            callbackStatus: int = result["callbackStatus"]
-            expireStatus: int = result["expireStatus"]
+            callback: str = ""
+            callbackStatus: int = 0
+            expireStatus: result["expireStatus"]
+            if 'callback' in result:
+                callback: str = result["callback"]
+            if 'callbackStatus' in result:
+                callbackStatus: int = result["callbackStatus"]
+            if 'expireStatus' in result:
+                expireStatus: int = result["expireStatus"]
+            print("taskId: %s, 分类: %s, 证据信息: %s" % (taskId, status, expireStatus))
     else:
         print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))

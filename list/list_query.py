@@ -96,23 +96,23 @@ if __name__ == "__main__":
     }
 
     ret = api.query(params)
-
-    code: int = ret["code"]
-    msg: str = ret["msg"]
-    if code == 200:
-        result: dict = ret["result"]
-        count: int = result["count"]
-        rows: list = result["rows"]
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                listType: int = row["listType"]
-                entityType: int = row["entityType"]
-                productId: int = row["productId"]
-                targetId: int = row["targetId"]
-                entity: str = row["entity"]
-                releaseTime: int = row["releaseTime"]
-                source: int = row["source"]
-                spamType: int = row["spamType"]
-        print("count:%s, rows:%s" % (count, rows))
-    else:
-        print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))
+    if ret is not None:
+        code: int = ret["code"]
+        msg: str = ret["msg"]
+        if code == 200:
+            result: dict = ret["result"]
+            count: int = result["count"]
+            rows: list = result["rows"]
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    listType: int = row["listType"]
+                    entityType: int = row["entityType"]
+                    productId: int = row["productId"]
+                    targetId: int = row["targetId"]
+                    entity: str = row["entity"]
+                    releaseTime: int = row["releaseTime"]
+                    source: int = row["source"]
+                    spamType: int = row["spamType"]
+            print("count:%s, rows:%s" % (count, rows))
+        else:
+            print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))

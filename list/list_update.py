@@ -95,11 +95,11 @@ if __name__ == "__main__":
     }
 
     ret = api.query(params)
-
-    code: int = ret["code"]
-    msg: str = ret["msg"]
-    if code == 200:
-        result: bool = ret["result"]
-        print("Update success: %s" % result)
-    else:
-        print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))
+    if ret is not None:
+        code: int = ret["code"]
+        msg: str = ret["msg"]
+        if code == 200:
+            result: bool = ret["result"]
+            print("Update success: %s" % result)
+        else:
+            print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))

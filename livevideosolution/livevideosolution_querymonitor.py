@@ -86,23 +86,23 @@ if __name__ == "__main__":
         "taskId": "26b3f1b1e1a4460c9012ee45857d8349"
     }
     ret = api.check(params)
-
-    code: int = ret["code"]
-    msg: str = ret["msg"]
-    if code == 200:
-        result: dict = ret["result"]
-        status: int = result["status"]
-        if status == 0:
-            records: list = result["records"]
-            for record in records:
-                action: int = record["action"]
-                label: int = record["label"]
-                actionTime: int = record["actionTime"]
-                detail: str = record["detail"]
-            print("直播人审结果：%s" % records)
-        elif status == 20:
-            print("数据过期")
-        elif status == 30:
-            print("数据不存在")
-    else:
-        print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))
+    if ret is not None:
+        code: int = ret["code"]
+        msg: str = ret["msg"]
+        if code == 200:
+            result: dict = ret["result"]
+            status: int = result["status"]
+            if status == 0:
+                records: list = result["records"]
+                for record in records:
+                    action: int = record["action"]
+                    label: int = record["label"]
+                    actionTime: int = record["actionTime"]
+                    detail: str = record["detail"]
+                print("直播人审结果：%s" % records)
+            elif status == 20:
+                print("数据过期")
+            elif status == 30:
+                print("数据不存在")
+        else:
+            print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))

@@ -98,7 +98,10 @@ if __name__ == "__main__":
     if code == 200:
         result: dict = ret["result"]
         jobId: int = result["jobId"]
-        dataId: str = result["dataId"]
-        print("SUBMIT SUCCESS: jobId=%s, dataId=%s" % (jobId, dataId))
+        if 'dataId' in result:
+            dataId: str = result["dataId"]
+            print("SUBMIT SUCCESS: jobId=%s, dataId=%s" % (jobId, dataId))
+        else:
+            print("SUBMIT SUCCESS: jobId=%s" % jobId)
     else:
         print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))

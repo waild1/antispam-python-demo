@@ -115,8 +115,8 @@ if __name__ == "__main__":
                                     label: int = labelInfo["label"]
                                     level: int = labelInfo["level"]
                                     subLabels: list = labelInfo["subLabels"]
-                language: dict = result["language"]
-                if language is not None:
+                if 'language' in result:
+                    language: dict = result["language"]
                     taskId: str = language["taskId"]
                     dataId: str = language["dataId"]
                     callback: str = language["callback"]
@@ -128,8 +128,8 @@ if __name__ == "__main__":
                             if segmentsArray is not None and len(segmentsArray) > 0:
                                 for segment in segmentsArray:
                                     print("taskId=%s，语种类型=%s，开始时间=%s秒，结束时间=%s秒" % (taskId, typeLan, segment["startTime"], segment["endTime"]))
-                asr: dict = result["asr"]
-                if asr is not None:
+                if 'asr' in result:
+                    asr: dict = result["asr"]
                     taskId: str = asr["taskId"]
                     dataId: str = asr["dataId"]
                     callback: str = asr["callback"]
@@ -140,8 +140,8 @@ if __name__ == "__main__":
                             endTime: int = detail["endTime"]
                             content: str = detail["content"]
                             print("taskId=%s，文字翻译结果=%s，开始时间=%s秒，结束时间=%s秒" % (taskId, content, startTime, endTime))
-                voice: dict = result["voice"]
-                if voice is not None:
+                if 'voice' in result:
+                    voice: dict = result["voice"]
                     taskId: str = voice["taskId"]
                     dataId: str = voice["dataId"]
                     callback: str = voice["callback"]

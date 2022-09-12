@@ -110,9 +110,15 @@ if __name__ == "__main__":
     msg: str = ret["msg"]
     if code == 200:
         result: dict = ret["result"]
-        antispam: dict = ret["antispam"]
-        taskId: str = antispam["taskId"]
-        dataId: str = antispam["dataId"]
-        print("SUBMIT SUCCESS: taskId=%s, dataId=%s" % (taskId, dataId))
+        if 'antispam' in result:
+            antispam: dict = result["antispam"]
+            taskId: str = antispam["taskId"]
+            if 'dataId' in antispam:
+                dataId: str = antispam["dataId"]
+                print("SUBMIT SUCCESS: taskId=%s, dataId=%s" % (taskId, dataId))
+            else:
+                print("SUBMIT SUCCESS: taskId=%s" % taskId)
+        else:
+            print("SUBMIT SUCCESS")
     else:
         print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))

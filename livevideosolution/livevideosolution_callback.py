@@ -141,35 +141,37 @@ if __name__ == "__main__":
     api = LiveVideoSolutionCallbackAPIDemo(SECRET_ID, SECRET_KEY)
     
     ret = api.check()
-
-    code: int = ret["code"]
-    msg: str = ret["msg"]
-    if code == 200:
-        resultArray: list = ret["result"]
-        if resultArray is None or len(resultArray) == 0:
-            print("暂时没有结果需要获取, 请稍后重试!")
-        else:
-            for result in resultArray:
-                taskId: str = result["taskId"]
-                callback: str = result["callback"]
-                dataId: str = result["dataId"]
-                status: int = result["status"]
-                print("taskId:%s, callback:%s, dataId:%s, status:%s" % (taskId, callback, dataId, status))
-
-                evidences: dict = result["evidences"]
-                reviewEvidences: dict = result["reviewEvidences"]
-                if evidences is not None:
-                    audio: dict = evidences["audio"]
-                    video: dict = evidences["video"]
-                    if audio is not None:
-                        api.parse_audio(audio, taskId)
-                    elif video is not None:
-                        api.parse_video(video, taskId)
+    if ret is not None:
+        code: int = ret["code"]
+        msg: str = ret["msg"]
+        if code == 200:
+            resultArray: list = ret["result"]
+            if resultArray is None or len(resultArray) == 0:
+                print("暂时没有结果需要获取, 请稍后重试!")
+            else:
+                for result in resultArray:
+                    taskId: str = result["taskId"]
+                    callback: str = result["callback"]
+                    dataId: str = result["dataId"]
+                    status: int = result["status"]
+                    print("taskId:%s, callback:%s, dataId:%s, status:%s" % (taskId, callback, dataId, status))
+                    if 'reviewEvidences' in result:
+                        reviewEvidences: dict = result["reviewEvidences"]
+                    if 'evidences' in result:
+                        evidences: dict = result["evidences"]
+                    if 'audio' in evidences:
+                        audio: dict = evidences["audio"]
+                    if 'video' in evidences:
+                        video: dict = evidences["video"]
+                        if audio is not None:
+                            api.parse_audio(audio, taskId)
+                        elif video is not None:
+                            api.parse_video(video, taskId)
+                        else:
+                            print("Invalid Evidence: %s", evidences)
+                    elif reviewEvidences is not None:
+                        api.parse_human(reviewEvidences, taskId)
                     else:
-                        print("Invalid Evidence: %s", evidences)
-                elif reviewEvidences is not None:
-                    api.parse_human(reviewEvidences, taskId)
-                else:
-                    print("Invalid Result: %s" % result)
-    else:
-        print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))
+                        print("Invalid Result: %s" % result)
+        else:
+            print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))

@@ -90,16 +90,16 @@ if __name__ == "__main__":
     }
 
     ret = api.check(params)
-
-    code: int = ret["code"]
-    msg: str = ret["msg"]
-    if code == 200:
-        result: dict = ret["result"]
-        taskId: str = result["taskId"]
-        status: bool = result["status"]
-        if status:
-            print("SUBMIT SUCCESS: taskId=%s" % taskId)
+    if ret is not None:
+        code: int = ret["code"]
+        msg: str = ret["msg"]
+        if code == 200:
+            result: dict = ret["result"]
+            taskId: str = result["taskId"]
+            status: bool = result["status"]
+            if status:
+                print("SUBMIT SUCCESS: taskId=%s" % taskId)
+            else:
+                print("SUBMIT FAIL: taskId=%s" % taskId)
         else:
-            print("SUBMIT FAIL: taskId=%s" % taskId)
-    else:
-        print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))
+            print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))

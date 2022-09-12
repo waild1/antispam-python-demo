@@ -91,7 +91,6 @@ if __name__ == "__main__":
     }
 
     ret = api.query(params)
-
     code: int = ret["code"]
     msg: str = ret["msg"]
     if code == 200:
@@ -105,12 +104,12 @@ if __name__ == "__main__":
                     print("Can't find antispam Data")
                 else:
                     checkStatus: int = antispam["checkStatus"]
-                    dataId: str = "" if antispam["dataId"] is None else antispam["dataId"]
+                    # dataId: str = "" if antispam["dataId"] is None else antispam["dataId"]
                     suggestion: int = antispam["suggestion"]
-                    callback: str = "" if antispam["callback"] is None else antispam["callback"]
+                    # callback: str = "" if antispam["callback"] is None else antispam["callback"]
                     taskId: str = antispam["taskId"]
                     resultType: int = antispam["resultType"]
                     evidences: dict = antispam["evidences"]
-                    print("SUCCESS: dataId=%s, taskId=%s, resultType=%s, checkStatus=%s, evidences=%s" % (dataId, taskId, resultType, checkStatus, evidences))
+                    print("SUCCESS: taskId=%s, resultType=%s, checkStatus=%s, evidences=%s" % (taskId, resultType, checkStatus, evidences))
     else:
         print("ERROR: code=%s, msg=%s" % (ret["code"], ret["msg"]))

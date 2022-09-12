@@ -97,7 +97,8 @@ if __name__ == "__main__":
                 else:
                     taskId: str = antispam["taskId"]
                     dataId: str = "" if antispam["dataId"] is None else antispam["dataId"]
-                    callback: str = "" if antispam["callback"] is None else antispam["callback"]
+                    if 'callback' in antispam:
+                        callback: str = antispam["callback"]
                     url: str = "" if antispam["url"] is None else antispam["url"]
                     siteUrl: str = "" if antispam["siteUrl"] is None else antispam["siteUrl"]
                     siteName: str = "" if antispam["siteName"] is None else antispam["siteName"]
